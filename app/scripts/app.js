@@ -12,6 +12,7 @@ angular
   .module('dashApp', [
     'ngAnimate',
     'ngCookies',
+    'ngMessages',
     'ngResource',
     'ngRoute',
     'ngSanitize',
