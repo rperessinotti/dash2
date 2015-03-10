@@ -1,0 +1,34 @@
+<div class="col-md-6sensores">
+    <table class="table">
+        <caption>{{resultSensor.location}} <a href="{{resultSensor.detailPath}}"><spam class="glyphicon glyphicon-search"></spam></a></caption>
+        <thead>
+            <tr>
+                <th>Horário</th>
+                <th>Temperatura</th>
+                <th>Humidade</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>10:00</td>
+                <td>{{resultSensor.mainData.ten.Temperature}}</td>
+                <td>{{resultSensor.mainData.ten.Humidity}}</td>
+            </tr>
+            <tr>
+                <td>12:00</td>
+                <td>{{resultSensor.mainData.twelve.Temperature}}</td>
+                <td>{{resultSensor.mainData.twelve.Humidity}}</td>
+            </tr>
+            <tr>
+                <td>14:00</td>
+                <td>{{resultSensor.mainData.fourteen.Temperature}}</td>
+                <td>{{resultSensor.mainData.fourteen.Humidity}}</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <td></td>
+            <td></td>
+            <td>Show details <spam class="glyphicon glyphicon-fire"></spam></td>
+        </tfoot>
+    </table>
+</div>
