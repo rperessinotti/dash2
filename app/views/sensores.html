@@ -1,5 +1,11 @@
 {{path}}
 
+<div id="SensoresCtrl" data-ng-controller="SensoresCtrl">
+    <div ng-repeat="(key, value) in pageResult">
+        {{value}} <br /><br /><br /><br /><hr>
+    </div>
+</div>
+
 <!--
 <div class="sensors-container" data-ng-init="getValuesFromSensor(1,false,'#gauge_1_Temperature')">
     <div id="gauge_1_Temperature" class="150x120px"></div>
@@ -17,4 +23,3 @@
 </div>
 -->
 
-{{getDevicesByGroup()}}
