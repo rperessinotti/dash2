@@ -14,7 +14,7 @@ angular.module('dashApp')
         var d = new Date();
         $scope.today = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
         $scope.now = d.getDate() + '.' + (d.getMonth() + 1) + '.' + d.getFullYear();
-        $scope.devices = null;
+        $scope.devices = [];
         $scope.path = $location.path().split('/').pop();
         $scope.pageResult = [];
         $scope.getData = function (date) {
@@ -32,38 +32,6 @@ angular.module('dashApp')
             return(new_url);
         };
 
-        var coverDataParser = function (data) {
-            $.each(data, function (key, value) {
-                // @todo: Verificar se esta iterrando no cara certo, tenho a impressao que preciso andar mais um nivel pra poder gravar a temperatura e humidade certa
-                var dtaux = $scope.getData(value.created_at);
-                var date_aux = dtaux.split('|')[0];
-                var time_aux = dtaux.split('|')[1];
-                var d = new Date();
-                var today = d.getFullYear()+'-'+("0" + (d.getMonth() + 1)).slice(-2)+'-'+("0" + d.getDate()).slice(-2);
-
-                switch(parseInt(time_aux.split(":")[0])) {
-                    case 10:
-                        if (value.parsedData.ten.Temperature.length == 0) {
-                          value.parsedData.ten.Temperature = value.data.Temperature;
-                          value.parsedData.ten.Humidity = v.body.data.Humidity;
-                        };
-                        break;
-                    case 12:
-                        if (value.parsedData.twelve.Temperature.length == 0) {
-                          value.parsedData.twelve.Temperature = v.body.data.Temperature;
-                          value.parsedData.twelve.Humidity = v.body.data.Humidity;
-                        }
-                    break;
-                    case 14:
-                        if (value.parsedData.fourteen.Temperature.length == 0) {
-                          value.parsedData.fourteen.Temperature = v.body.data.Temperature;
-                          value.parsedData.fourteen.Humidity = v.body.data.Humidity;
-                        }
-                        break;
-                };
-            });
-        };
-
         var structuredValues = { Temperature: '', Humidity: ''};
         var structuredData   = { ten : structuredValues, twelve  : structuredValues, fourteen: structuredValues};
 
@@ -78,8 +46,34 @@ angular.module('dashApp')
                           {location: '12 - Corredor 1', deviceGroup: '12',  deviceNumber: 9,  deviceToken: 'SSPtpxV7JqTHYY4urz-hAw', data: [], parsedData: structuredData, detailPath: '/cps/12/corredor1'},
                           {location: '12 - Corredor 2', deviceGroup: '12',  deviceNumber: 10, deviceToken: 'SSPtpxV7JqTHYY4urz-hAw', data: [], parsedData: structuredData, detailPath: '/cps/12/corredor2'}
             ];
+
+        var coverDataParser = function (data, sensorKey) {
+            $.each(data, function (key, value) {
+                var dtaux = $scope.getData(value.created_at);
+                var date_aux = dtaux.split('|')[0];
+                var time_aux = dtaux.split('|')[1];
+                var d = new Date();
+
+                switch(parseInt(time_aux.split(":")[0])) {
+                    case 10:
+                        $scope.sensors[sensorKey].parsedData.ten.Temperature = value.body.data.Temperature;
+                        $scope.sensors[sensorKey].parsedData.ten.Humidity = value.body.data.Humidity;
+                        break;
+                    case 12:
+                        $scope.sensors[sensorKey].parsedData.twelve.Temperature = value.body.data.Temperature;
+                        $scope.sensors[sensorKey].parsedData.twelve.Humidity = value.body.data.Humidity;
+                        break;
+                    case 14:
+                        $scope.sensors[sensorKey].parsedData.fourteen.Temperature = value.body.data.Temperature;
+                        $scope.sensors[sensorKey].parsedData.fourteen.Humidity = value.body.data.Humidity;
+                        break;
+                };
+            });
+        };
+
         $.each($scope.sensors, function (key, value) {
             if (value.deviceGroup === $scope.path) {
+                $scope.devices.push(value.deviceNumber);
                 var urlAux = transformUrl(value.deviceNumber, value.deviceToken, false);
                 $http.get(urlAux)
                     .success(function(data, status, headers, config) {
@@ -87,9 +81,10 @@ angular.module('dashApp')
                             $scope.sensors[key].data = data;
                             $scope.pageResult.push($scope.sensors[key]);
                         }
+                        coverDataParser(data, key);
                     })
                     .error(function(data, status, headers, config) {
-                        console.log('fracasso');
+                        console.log('Erro ao tentar puxar informações do servidor!');
                     });
             }
         });

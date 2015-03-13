@@ -1,25 +1,60 @@
-{{path}}
-
 <div id="SensoresCtrl" data-ng-controller="SensoresCtrl">
     <div ng-repeat="(key, value) in pageResult">
-        {{value}} <br /><br /><br /><br /><hr>
+        <!-- {{key}} - {{value.parsedData}} <br /><br /><br /><br /><hr> -->
+        <div class="col-md-6sensores">
+            <table class="table">
+                <caption>{{pageResult[key].location}} <a href="{{pageResult[key].detailPath}}"><spam class="glyphicon glyphicon-search"></spam></a></caption>
+                <thead>
+                    <tr>
+                        <th>Horário</th>
+                        <th>Temperatura</th>
+                        <th>Humidade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>10:00</td>
+                        <td>{{pageResult[key].parsedData.ten.Temperature}}</td>
+                        <td>{{pageResult[key].parsedData.ten.Humidity}}</td>
+                    </tr>
+                    <tr>
+                        <td>12:00</td>
+                        <td>{{pageResult[key].parsedData.twelve.Temperature}}</td>
+                        <td>{{pageResult[key].parsedData.twelve.Humidity}}</td>
+                    </tr>
+                    <tr>
+                        <td>14:00</td>
+                        <td>{{pageResult[key].parsedData.fourteen.Temperature}}</td>
+                        <td>{{pageResult[key].parsedData.fourteen.Humidity}}</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <td></td>
+                    <td></td>
+                    <td>Show details <spam class="glyphicon glyphicon-fire"></spam></td>
+                </tfoot>
+            </table>
+
+            <div class="details">
+                <table class="table">
+                    <caption>{{pageResult[key].location}}</caption>
+                    <thead>
+                        <tr>
+                            <th>Horário</th>
+                            <th>Temperatura</th>
+                            <th>Humidade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr ng-repeat="(detailKey, detailValue) in value.data">
+                           <td>{{getData(detailValue.created_at).split('|')[1]}}</td>
+                           <td>{{detailValue.body.data.Temperature}}</td>
+                           <td>{{detailValue.body.data.Humidity}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
-
-<!--
-<div class="sensors-container" data-ng-init="getValuesFromSensor(1,false,'#gauge_1_Temperature')">
-    <div id="gauge_1_Temperature" class="150x120px"></div>
-    <div ng-include="'views/listasensores.html'"></div>
-</div>
-
-<div class="sensors-container" data-ng-init="getValuesFromSensor(2,false,'#gauge_2_Temperature')">
-    <div id="gauge_2_Temperature" class="150x120px"></div>
-    <div ng-include="'views/listasensores.html'"></div>
-</div>
-
-<div class="sensors-container" data-ng-init="getValuesFromSensor(3,false,'#gauge_3_Temperature')">
-    <div id="gauge_3_Temperature" class="150x120px"></div>
-    <div ng-include="'views/listasensores.html'"></div>
-</div>
--->
-
