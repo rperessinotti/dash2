@@ -1,9 +1,10 @@
 <div id="SensoresCtrl" data-ng-controller="SensoresCtrl">
     <div ng-repeat="(key, value) in pageResult">
         <!-- {{key}} - {{value.parsedData}} <br /><br /><br /><br /><hr> -->
-        <div class="col-md-6sensores">
+        <div class="col-md-6 sensores">
             <table class="table">
-                <caption>{{pageResult[key].location}} <a href="{{pageResult[key].detailPath}}"><spam class="glyphicon glyphicon-search"></spam></a></caption>
+               <div id="gauge_{{pageResult[key].deviceNumber}}"></div>
+                <caption>{{pageResult[key].location}} </caption>
                 <thead>
                     <tr>
                         <th>Horário</th>
@@ -31,30 +32,69 @@
                 <tfoot>
                     <td></td>
                     <td></td>
-                    <td>Show details <spam class="glyphicon glyphicon-fire"></spam></td>
+                    <td data-toggle="modal" data-target=".detail_{{pageResult[key].deviceNumber}}">Show details <spam class="glyphicon glyphicon-fire"></spam></td>
                 </tfoot>
             </table>
+            <div class="modal fade bs-example-modal-lg detail_{{pageResult[key].deviceNumber}}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <center><h2>{{pageResult[key].location}}</h2></center>
+                    </div>
+                    <table class="table">
+                        <caption></caption>
+                        <thead>
+                            <tr>
+                                <th>Horário</th>
+                                <th>Temperatura</th>
+                                <th>Humidade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-            <div class="details">
-                <table class="table">
-                    <caption>{{pageResult[key].location}}</caption>
-                    <thead>
-                        <tr>
-                            <th>Horário</th>
-                            <th>Temperatura</th>
-                            <th>Humidade</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        <tr ng-repeat="(detailKey, detailValue) in value.data">
-                           <td>{{getData(detailValue.created_at).split('|')[1]}}</td>
-                           <td>{{detailValue.body.data.Temperature}}</td>
-                           <td>{{detailValue.body.data.Humidity}}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                            <tr ng-repeat="(detailKey, detailValue) in value.data">
+                               <td>{{getData(detailValue.created_at).split('|')[1]}}</td>
+                               <td>{{detailValue.body.data.Temperature}}</td>
+                               <td>{{detailValue.body.data.Humidity}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+              </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+  var g = function(gauge_value, idName, sensorType) {
+      if ($('#' +idName).hasClass('processed')) {
+          return;
+      }
+
+      $('#' +idName).addClass('processed');
+
+      if (sensorType === 'temperature') {
+          new JustGage({
+            id: idName,
+            value:gauge_value,
+            min: 20,
+            max: 35,
+            title: "Temperatura",
+            label: "Celcius"
+          });
+      } else {
+          new JustGage({
+            id: idName,
+            value:gauge_value,
+            min: 10,
+            max: 80,
+            title: "Humidade",
+            label: "%"
+          });
+      }
+  };
+</script>

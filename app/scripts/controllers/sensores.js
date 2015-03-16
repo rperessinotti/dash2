@@ -23,6 +23,7 @@ angular.module('dashApp')
             return daux + '|' + taux;
         };
         var transformUrl = function (id, token, fullHistory) {
+            $scope.today = '2015-3-14';
             var new_url = baseURL.replace('@device_id', id);
             new_url = new_url.replace('@token', token);
             if (typeof fullHistory  === "undefined" || (fullHistory !== false && fullHistory !== true))
@@ -32,8 +33,8 @@ angular.module('dashApp')
             return(new_url);
         };
 
-        var structuredValues = { Temperature: '', Humidity: ''};
-        var structuredData   = { ten : structuredValues, twelve  : structuredValues, fourteen: structuredValues};
+        var structuredValues = { Temperature: 0, Humidity: 0};
+        var structuredData   = { ten : { Temperature: 0, Humidity: 0}, twelve  : { Temperature: 0, Humidity: 0}, fourteen: { Temperature: 0, Humidity: 0}};
 
         $scope.sensors = [{location: '23a - Terreo',    deviceGroup: '23a', deviceNumber: 1,  deviceToken: 'SSPtpxV7JqTHYY4urz-hAw', data: [], parsedData: structuredData, detailPath: '/cps/23a/terreo'},
                           {location: '23a - 1o. Piso',  deviceGroup: '23a', deviceNumber: 2,  deviceToken: 'SSPtpxV7JqTHYY4urz-hAw', data: [], parsedData: structuredData, detailPath: '/cps/23a/1piso'},
@@ -48,44 +49,98 @@ angular.module('dashApp')
             ];
 
         var coverDataParser = function (data, sensorKey) {
-            $.each(data, function (key, value) {
-                var dtaux = $scope.getData(value.created_at);
+            var dados = data;
+            var parsedAux = { ten : { Temperature: 0, Humidity: 0}, twelve  : { Temperature: 0, Humidity: 0}, fourteen: { Temperature: 0, Humidity: 0}};;
+
+            $.each(dados, function (chave, valor) {
+                var dtaux = $scope.getData(valor.created_at);
                 var date_aux = dtaux.split('|')[0];
                 var time_aux = dtaux.split('|')[1];
-                var d = new Date();
-
-                switch(parseInt(time_aux.split(":")[0])) {
+                var swithaux = parseInt(time_aux.split(":")[0]);
+                var conta = 0;
+                switch(swithaux) {
                     case 10:
-                        $scope.sensors[sensorKey].parsedData.ten.Temperature = value.body.data.Temperature;
-                        $scope.sensors[sensorKey].parsedData.ten.Humidity = value.body.data.Humidity;
-                        break;
+                        if (parsedAux.ten.Temperature === 0) {
+                            parsedAux.ten.Temperature = valor.body.data.Temperature;
+                            parsedAux.ten.Humidity    = valor.body.data.Humidity;
+                        }
                     case 12:
-                        $scope.sensors[sensorKey].parsedData.twelve.Temperature = value.body.data.Temperature;
-                        $scope.sensors[sensorKey].parsedData.twelve.Humidity = value.body.data.Humidity;
-                        break;
+                        if (parsedAux.twelve.Temperature === 0) {
+                            parsedAux.twelve.Temperature = valor.body.data.Temperature;
+                            parsedAux.twelve.Humidity    = valor.body.data.Humidity;
+                        }
                     case 14:
-                        $scope.sensors[sensorKey].parsedData.fourteen.Temperature = value.body.data.Temperature;
-                        $scope.sensors[sensorKey].parsedData.fourteen.Humidity = value.body.data.Humidity;
-                        break;
-                };
+                        if (parsedAux.fourteen.Temperature === 0) {
+                            parsedAux.fourteen.Temperature = valor.body.data.Temperature;
+                            parsedAux.fourteen.Humidity    = valor.body.data.Humidity;
+                        }
+                }
+            });
+            $scope.sensors[sensorKey].parsedData = parsedAux;
+        };
+
+        var fillPageResults = function() {
+            $.each($scope.devices, function (key, value) {
+                if ($scope.pageResult.length === 0) {
+                    $scope.pageResult.push($scope.sensors[value.key]);
+                    setTimeout(function () {
+                        g($scope.sensors[value.key].data[0].body.data.Temperature, 'gauge_' + $scope.sensors[value.key].deviceNumber, 'temperature');
+                    }, 2000);
+                }
+                else {
+                    var controla = false;
+                    $.each($scope.pageResult, function (prKey, prValue) {
+                        if (value.deviceNumber === $scope.pageResult[prKey].deviceNumber) {
+                            controla = true;
+                        }
+                    });
+                    if (!controla) {
+                        $scope.pageResult.push($scope.sensors[value.key]);
+                        setTimeout(function () {
+                            g($scope.sensors[value.key].data[0].body.data.Temperature, 'gauge_' + $scope.sensors[value.key].deviceNumber, 'temperature');
+                        }, 2000);
+                    }
+                }
             });
         };
 
+        var onReceiveData = function (data, key) {
+            $scope.sensors[key].data = data.data;
+            coverDataParser($scope.sensors[key].data, key);
+            fillPageResults();
+        }
+
+
         $.each($scope.sensors, function (key, value) {
             if (value.deviceGroup === $scope.path) {
-                $scope.devices.push(value.deviceNumber);
+                var deviceStructure = {deviceNumber : '', key: 0};
+                deviceStructure.deviceNumber = value.deviceNumber;
+                deviceStructure.key = key;
+                $scope.devices.push(deviceStructure);
                 var urlAux = transformUrl(value.deviceNumber, value.deviceToken, false);
                 $http.get(urlAux)
-                    .success(function(data, status, headers, config) {
+                    .then(function(data, status, headers, config) {
+                      onReceiveData(data, key);
+                    /*
+                        console.log('prometido');
                         if (!$scope.sensors[key].data.length > 0) {
                             $scope.sensors[key].data = data;
-                            $scope.pageResult.push($scope.sensors[key]);
+                            //$scope.pageResult.push($scope.sensors[key]);
                         }
-                        coverDataParser(data, key);
+                        //coverDataParser(data, key);
+                        */
                     })
+                /*
                     .error(function(data, status, headers, config) {
                         console.log('Erro ao tentar puxar informações do servidor!');
                     });
+                    */
             }
         });
+
+    /*
+        $.each($scope.devices, function (key, value) {
+            coverDataParser($scope.sensors[value.key].data, value.key);
+        });
+    */
     });
