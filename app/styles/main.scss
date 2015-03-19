@@ -2,7 +2,9 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 // bower:scss
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 // endbower
-
+.btn-default {
+  background-color: #27BEC6;
+}
 .sensor_details {
     display: none;
 }
@@ -16,6 +18,11 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 
 body {
   padding: 0;
+  font-family: 'Raleway', sans-serif;
+  background: url(images/background.png) bottom left;
+}
+.body-background {
+  background: url(images/background.png) bottom right;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -28,7 +35,7 @@ body {
 
 /* Custom page header */
 .header {
-  border-bottom: 1px solid #e5e5e5;
+  border: none;
   margin-bottom: 10px;
 
   /* Make the masthead heading the same height as the navigation */
@@ -42,9 +49,20 @@ body {
 
 /* Custom page footer */
 .footer {
-  padding-top: 19px;
-  color: #777;
-  border-top: 1px solid #e5e5e5;
+    margin-bottom: 20px;
+    padding-top: 20px;
+    color: white;
+
+    .container {
+      background-color: rgba(0, 0, 0, 0.2);
+      padding: 30px;
+      padding-top: 19px;
+      color: #FFF;
+      border-top: none;
+    }
+    a {
+      color: #FFF;
+    }
 }
 
 .container-narrow > hr {
@@ -70,7 +88,118 @@ body {
     margin-top: 28px;
   }
 }
+.navbar-header {
+  width: 100%;
+}
+h1 {
+  color: white;
+  margin-top: 10px;
+}
+/* Logo */
+.navbar-brand {
+  float: left;
+  padding: 15px 15px;
+  font-size: 18px;
+  line-height: 20px;
+  height: auto;
+  width: 200px;
 
+  img {
+    display: block;
+    width: 100%;
+    z-index: 1;
+    position: relative;
+  }
+}
+.base {
+    background: white;
+    padding-left: 40%;
+    margin-bottom: 10px;
+
+    h3 {
+      padding: 0;
+    }
+
+    .nav-pills > li.active > a,
+    .nav-pills > li.active > a:hover,
+    .nav-pills > li.active > a:focus {
+      background-color: #27BEC6;
+    }
+}
+.build {
+    background: white;
+    padding-left: 40%;
+
+    h3 {
+      padding: 0;
+    }
+
+    .nav-pills > li.active > a,
+    .nav-pills > li.active > a:hover,
+    .nav-pills > li.active > a:focus {
+      background-color: #f2b833;
+    }
+}
+.navbar-default {
+  background: none;
+  border: none;
+
+  .navbar-collapse {
+    clear: both;
+    position: absolute;
+    top: 30%;
+    right: 0;
+    left: 0;
+  }
+}
+body {
+  background-color: #444;
+}
+
+.main-content {
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 30px;
+}
+
+
+
+/* Sensors */
+.sensores .td {
+  border: none;
+}
+.sensores {
+    .table {
+        color: white;
+
+        thead tr th,
+        thead tr td,
+        tbody tr th,
+        tbody tr td,
+        tfoot tr th,
+        tfoot tr td {
+           border: none !important;
+        }
+
+        tbody tr {
+          border: none;
+          margin-bottom: 10px;
+          display: block;
+          background: #444;
+          font-size: 20px;
+          color: white;
+        }
+
+        thead th {
+          font-size: 10px;
+        }
+
+        caption {
+          text-align: center;
+          color: #FFF;
+          font-size: 35px;
+        }
+    }
+}
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   .container {

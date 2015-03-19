@@ -14,11 +14,13 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
     <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
     <script src="scripts/raphael-min.js"></script>
     <script src="scripts/justgage.js"></script>
   </head>
   <body ng-app="dashApp">
+    <div class="body-background">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -36,42 +38,44 @@
               <span class="icon-bar"></span>
             </button>
 
-            <a class="navbar-brand" href="#/">dash</a>
+            <a class="navbar-brand" href="#/"><img src="images/logo.png" alt="Sensores de Temperatura"></a>
+            <h1>Sensores de Temperatura</h1>
           </div>
 
           <div class="collapse navbar-collapse" id="js-navbar-collapse">
-
-            <ul class="nav navbar-nav">
-              <li><a href="#/">Início</a></li>
-              <li class="dropdown">
-                <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-fire" aria-hidden="true"></span> Sensores <span class="caret"></span></a>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a href="#/"><strong>Campinas</strong></a></li>
-                  <li role="presentation" class="disabled"><a href="#"> 09</a></li>
-                  <li><a href="#/sensores/cps/12"> 12</a></li>
-                  <li><a href="#/sensores/cps/16"> 16</a></li>
-                  <li><a href="#/sensores/cps/23a"> 23 A</a></li>
-                  <li><a href="#/sensores/cps/23b"> 23 B</a></li>
-                  <li class="divider"></li>
-                  <li role="presentation" class="disabled"><a href="#">São Paulo</a></li>
-                  <li class="divider"></li>
-                  <li role="presentation" class="disabled"><a href="#">Belo Horizonte</a></li>
-                </ul>
-              </li>
-              <li><a ng-href="#/about">Sobre</a></li>
-            </ul>
+              <div class="base">
+              <ul class="nav nav-pills">
+                <li role="presentation" class="base-title"><h3>Base</h3></li>
+                <li role="presentation" class="disabled"><a href="#">SP</a></li>
+                <li role="presentation" class="active"><a href="#">CPS</a></li>
+                <li role="presentation" class="disabled"><a href="#">BH</a></li>
+              </ul>
+              </div>
+              <div class="build">
+              <ul class="nav nav-pills">
+                <li role="presentation" class="build-title"><h3>Prédio</h3></li>
+                <li role="presentation" class="disabled"><a href="#">09</a></li>
+                <li role="presentation"><a href="#/sensores/cps/12">12</a></li>
+                <li role="presentation"><a href="#/sensores/cps/16">16</a></li>
+                <li role="presentation" class="active"><a href="#/sensores/cps/23a">23A</a></li>
+                <li role="presentation"><a href="#/sensores/cps/23b">23B</a></li>
+              </ul>
+              </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="container">
-    <div ng-view=""></div>
+    <div class="container main-content">
+    <div class="row" ng-view=""></div>
     </div>
 
     <div class="footer">
       <div class="container">
-        <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
+        <ul class="nav nav-pills">
+          <li role="presentation"><a href="#/">Home</a></li>
+          <li role="presentation"><a ng-href="#/about">Sobre</a></li>
+        </ul>
       </div>
     </div>
 
@@ -108,5 +112,6 @@
         <script src="scripts/controllers/about.js"></script>
         <script src="scripts/controllers/sensores.js"></script>
         <!-- endbuild -->
+   </div>
 </body>
 </html>
