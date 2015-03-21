@@ -2,9 +2,28 @@
 <html class="no-js">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Sensores de Temperatura</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="images/favicon/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="images/favicon/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="57x57" href="images/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="images/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="images/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="images/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="images/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="images/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="images/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="images/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="images/favicon/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="images/favicon/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
@@ -14,69 +33,74 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
-    <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,900' rel='stylesheet' type='text/css'>
     <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
     <script src="scripts/raphael-min.js"></script>
     <script src="scripts/justgage.js"></script>
   </head>
   <body ng-app="dashApp">
-    <div class="body-background">
-    <!--[if lt IE 7]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
+    <div class="wrap-body">
+        <!--[if lt IE 7]>
+          <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
 
-    <!-- Add your site or application content here -->
-    <div class="header">
-      <div class="navbar navbar-default" role="navigation">
-        <div class="container">
-          <div class="navbar-header">
+        <!-- Add your site or application content here -->
+        <div class="header">
+          <div class="navbar navbar-default" role="navigation">
+            <div class="container">
+              <div class="navbar-header">
 
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
 
-            <a class="navbar-brand" href="#/"><img src="images/logo.png" alt="Sensores de Temperatura"></a>
-            <h1>Sensores de Temperatura</h1>
-          </div>
-
-          <div class="collapse navbar-collapse" id="js-navbar-collapse">
-              <div class="base">
-              <ul class="nav nav-pills">
-                <li role="presentation" class="base-title"><h3>Base</h3></li>
-                <li role="presentation" class="disabled"><a href="#">SP</a></li>
-                <li role="presentation" class="active"><a href="#">CPS</a></li>
-                <li role="presentation" class="disabled"><a href="#">BH</a></li>
-              </ul>
+                <a class="navbar-brand" href="#/"><img src="images/logo.png" alt="Sensores de Temperatura"></a>
+                <h1>Sensores de Temperatura</h1>
               </div>
-              <div class="build">
-              <ul class="nav nav-pills">
-                <li role="presentation" class="build-title"><h3>Prédio</h3></li>
-                <li role="presentation" class="disabled"><a href="#">09</a></li>
-                <li role="presentation"><a href="#/sensores/cps/12">12</a></li>
-                <li role="presentation"><a href="#/sensores/cps/16">16</a></li>
-                <li role="presentation" class="active"><a href="#/sensores/cps/23a">23A</a></li>
-                <li role="presentation"><a href="#/sensores/cps/23b">23B</a></li>
-              </ul>
+
+              <div class="collapse navbar-collapse" id="js-navbar-collapse">
+                  <div class="base">
+                  <ul class="nav nav-pills">
+                    <li role="presentation" class="base-title"><h3>Base</h3></li>
+                    <li role="presentation" class="disabled"><a href="#">SP</a></li>
+                    <li role="presentation" class="active"><a href="#">CPS</a></li>
+                    <li role="presentation" class="disabled"><a href="#">BH</a></li>
+                  </ul>
+                  </div>
+                  <div class="build">
+                  <ul class="nav nav-pills">
+                    <li role="presentation" class="build-title"><h3>Prédio</h3></li>
+                    <li role="presentation" class="disabled"><a href="#">09</a></li>
+                    <li role="presentation"><a href="#/sensores/cps/12">12</a></li>
+                    <li role="presentation"><a href="#/sensores/cps/16">16</a></li>
+                    <li role="presentation" class="active"><a href="#/sensores/cps/23a">23A</a></li>
+                    <li role="presentation"><a href="#/sensores/cps/23b">23B</a></li>
+                  </ul>
+                  </div>
               </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
 
-    <div class="container main-content">
-    <div class="row" ng-view=""></div>
-    </div>
+        <div class="container main-content">
+        <div class="row">
+            <div class="col-md-12" role="main" ng-view="">
+            </div>
+        </div>
+        </div>
 
-    <div class="footer">
-      <div class="container">
-        <ul class="nav nav-pills">
-          <li role="presentation"><a href="#/">Home</a></li>
-          <li role="presentation"><a ng-href="#/about">Sobre</a></li>
-        </ul>
-      </div>
+        <div class="footer">
+          <div class="container">
+            <ul class="nav nav-pills">
+              <li role="presentation"><a href="#/">Home</a></li>
+              <li role="presentation"><a ng-href="#/about">Sobre</a></li>
+            </ul>
+          </div>
+        </div>
+
     </div>
 
 
@@ -112,6 +136,7 @@
         <script src="scripts/controllers/about.js"></script>
         <script src="scripts/controllers/sensores.js"></script>
         <!-- endbuild -->
-   </div>
+    <div class="body-background hot"></div>
+    <div class="body-background cold"></div>
 </body>
 </html>

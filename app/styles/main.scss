@@ -2,8 +2,16 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 // bower:scss
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 // endbower
+a {
+  color: #000;
+}
 .btn-default {
   background-color: #27BEC6;
+  border: none;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;  border-radius: 0;
+  color: #FFF;
 }
 .sensor_details {
     display: none;
@@ -15,16 +23,33 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
   color: #000;
   padding: 0.2em 0;
 }
-
+html {
+  position: relative;
+}
 body {
   padding: 0;
   font-family: 'Raleway', sans-serif;
-  background: url(images/background.png) bottom left;
 }
 .body-background {
-  background: url(images/background.png) bottom right;
+  background: url(../images/background.png) -337px bottom no-repeat;
+  height: 424px;
+  width: 200px;
 }
-
+.wrap-body {
+  z-index: 1;
+  position: relative;
+}
+.hot {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-position: -119px center;
+}
+.cold {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
 .marketing,
@@ -60,8 +85,17 @@ body {
       color: #FFF;
       border-top: none;
     }
+
     a {
       color: #FFF;
+    }
+
+    .nav-pills > li > a:hover,
+    .nav-pills > li > a:focus {
+      background-color: #D71F3C;
+      -webkit-border-radius: 0;
+      -moz-border-radius: 0;
+      border-radius: 0;
     }
 }
 
@@ -80,13 +114,11 @@ body {
   }
 }
 
-/* Supporting marketing content */
-.marketing {
-  margin: 40px 0;
-
-  p + h4 {
-    margin-top: 28px;
-  }
+.modal-content {
+  text-align: center;
+}
+.thumbnail {
+  text-align: center;
 }
 .navbar-header {
   width: 100%;
@@ -112,10 +144,9 @@ h1 {
   }
 }
 .base {
-    background: white;
-    padding-left: 40%;
-    margin-bottom: 10px;
-
+    background: url(../images/menu-background.gif) repeat-x;
+    padding-left: 20%;
+    
     h3 {
       padding: 0;
     }
@@ -124,11 +155,15 @@ h1 {
     .nav-pills > li.active > a:hover,
     .nav-pills > li.active > a:focus {
       background-color: #27BEC6;
+      font-weight: bold;
+      font-size: 20px;
+      top: -4px;
+      border-radius: 0;
     }
 }
 .build {
-    background: white;
-    padding-left: 40%;
+    background: url(../images/menu-background.gif) repeat-x;
+    padding-left: 20%;
 
     h3 {
       padding: 0;
@@ -138,6 +173,12 @@ h1 {
     .nav-pills > li.active > a:hover,
     .nav-pills > li.active > a:focus {
       background-color: #f2b833;
+      font-weight: bold;
+      font-size: 20px;
+      top: -4px;
+      -webkit-border-radius: 0;
+      -moz-border-radius: 0;
+      border-radius: 0;
     }
 }
 .navbar-default {
@@ -150,6 +191,7 @@ h1 {
     top: 30%;
     right: 0;
     left: 0;
+    padding: 0;
   }
 }
 body {
@@ -170,7 +212,8 @@ body {
 .sensores {
     .table {
         color: white;
-
+        text-align: center;
+        
         thead tr th,
         thead tr td,
         tbody tr th,
@@ -183,7 +226,6 @@ body {
         tbody tr {
           border: none;
           margin-bottom: 10px;
-          display: block;
           background: #444;
           font-size: 20px;
           color: white;
@@ -191,6 +233,7 @@ body {
 
         thead th {
           font-size: 10px;
+          text-align: center;
         }
 
         caption {
@@ -200,12 +243,14 @@ body {
         }
     }
 }
+caption {
+  text-align: center;
+}
+.table > caption + thead > tr:first-child > th {
+  text-align: center;
+}
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
-  .container {
-    max-width: 730px;
-  }
-
   /* Remove the padding we set earlier */
   .header,
   .marketing,
@@ -213,12 +258,62 @@ body {
     padding-left: 0;
     padding-right: 0;
   }
-  /* Space out the masthead */
-  .header {
-    margin-bottom: 30px;
-  }
   /* Remove the bottom border on the jumbotron for visual effect */
   .jumbotron {
     border-bottom: 0;
+  }
+}
+@media screen and (max-width: 992px) {
+  .base {
+    padding-left: 40%;
+  }
+  .build {
+    padding-left: 40%;
+  }
+}
+@media screen and (max-width: 767px) {
+  .navbar-default {
+    .navbar-collapse {
+      position: relative;
+    }
+    .base {
+      padding-left: 10px;
+    }
+    .build {
+      padding-left: 10px;
+    }
+  }
+  .header {
+    padding: 0;
+
+    h1 {
+      height: 100px;
+      display: table-cell;
+      vertical-align: middle;
+      width: 60%;
+      font-size: 20px;
+    }
+
+    .navbar-default {
+      .navbar-brand {
+        width: 40%;
+      }
+      .navbar-toggle {
+        border-color: #DDD;
+        position: absolute;
+        right: 0px;
+        top: 35px;
+      }
+    }
+
+    .nav-pills {
+      .disabled {
+        display: none;
+      }
+    }
+
+    .navbar-collapse.in {
+      overflow: visible;
+    }
   }
 }

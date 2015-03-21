@@ -1,33 +1,37 @@
 <div id="SensoresCtrl" data-ng-controller="SensoresCtrl">
     <div ng-repeat="(key, value) in pageResult">
         <!-- {{key}} - {{value.parsedData}} <br /><br /><br /><br /><hr> -->
-        <div class="col-md-6 sensores">
-            <table class="table">
-               <div id="gauge_{{pageResult[key].deviceNumber}}"></div>
-                <caption>{{pageResult[key].location}} <button class="btn btn-default details-btn" title="Show details" data-toggle="modal" data-target=".detail_{{pageResult[key].deviceNumber}}"><spam class="glyphicon glyphicon-search"></spam></button></caption>
-                <tbody>
-                    <tr>
-                        <th>Horário</th>
-                        <th>Temperatura</th>
-                        <th>Humidade</th>
-                    </tr>
-                    <tr>
-                        <td>10:00</td>
-                        <td>{{pageResult[key].parsedData.ten.Temperature}}</td>
-                        <td>{{pageResult[key].parsedData.ten.Humidity}}</td>
-                    </tr>
-                    <tr>
-                        <td>12:00</td>
-                        <td>{{pageResult[key].parsedData.twelve.Temperature}}</td>
-                        <td>{{pageResult[key].parsedData.twelve.Humidity}}</td>
-                    </tr>
-                    <tr>
-                        <td>14:00</td>
-                        <td>{{pageResult[key].parsedData.fourteen.Temperature}}</td>
-                        <td>{{pageResult[key].parsedData.fourteen.Humidity}}</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="col-md-4 col-sm-6 sensores-wrap">
+            <div class="sensores">
+                <table class="table">
+                   <div id="gauge_{{pageResult[key].deviceNumber}}"></div>
+                    <caption>{{pageResult[key].location}} <button class="btn btn-default details-btn" title="Show details" data-toggle="modal" data-target=".detail_{{pageResult[key].deviceNumber}}"><spam class="glyphicon glyphicon-search"></spam></button></caption>
+                    <thead>
+                        <tr>
+                            <th>Horário</th>
+                            <th>Temperatura</th>
+                            <th>Humidade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>10:00</td>
+                            <td>{{pageResult[key].parsedData.ten.Temperature}}</td>
+                            <td>{{pageResult[key].parsedData.ten.Humidity}}</td>
+                        </tr>
+                        <tr>
+                            <td>12:00</td>
+                            <td>{{pageResult[key].parsedData.twelve.Temperature}}</td>
+                            <td>{{pageResult[key].parsedData.twelve.Humidity}}</td>
+                        </tr>
+                        <tr>
+                            <td>14:00</td>
+                            <td>{{pageResult[key].parsedData.fourteen.Temperature}}</td>
+                            <td>{{pageResult[key].parsedData.fourteen.Humidity}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             <div class="modal fade bs-example-modal-lg detail_{{pageResult[key].deviceNumber}}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -36,12 +40,14 @@
                     </div>
                     <table class="table">
                         <caption>Relatório por Hora</caption>
-                        <tbody>
+                        <thead>
                             <tr>
                                 <th>Horário</th>
                                 <th>Temperatura</th>
                                 <th>Humidade</th>
                             </tr>
+                        </thead>
+                        <tbody>
                             <tr ng-repeat="(detailKey, detailValue) in value.data">
                                <td>{{getData(detailValue.created_at).split('|')[1]}}</td>
                                <td>{{detailValue.body.data.Temperature}}</td>
